@@ -1,0 +1,47 @@
+.App {
+  height: 100vh;
+  width: 100vw;
+}
+
+.sendbird-app__conversation-wrap {
+  flex: 1;
+}
+
+.sb__logo img {
+  height: 30px;
+  width: 30px;
+}
+
+.modal__content {
+  margin: 20px 0px;
+  padding: 0px 12px;
+}
+
+.MuiTextField-root {
+  margin: 10px 0px;
+}
+
+.sendbird-channel-header__right-icon {
+  margin-top: -10px;
+}
+
+.sendbird-channel-header__right-icon svg {
+  fill: rgb(116, 45, 221);
+}
+
+.sendbird-channel-header__right-icon .sendbird-iconbutton {
+  display: none;
+}
+
+.custom-loader {
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader-wrap {
+  display: block;
+  height: 100px;
+  width: 100px;
+}
