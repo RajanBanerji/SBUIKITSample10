@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import useSendbirdStateContext from "@sendbird/uikit-react/useSendbirdStateContext";
-import sendBirdSelectors from "@sendbird/uikit-react/sendbirdSelectors";
+import sendbirdSelectors from "@sendbird/uikit-react/sendbirdSelectors";
 import Modal from "@sendbird/uikit-react/ui/Modal";
 import UserListItem from "@sendbird/uikit-react/ui/UserListItem";
 
@@ -23,7 +23,7 @@ export default function CustomInviteMembers({ onCancel }) {
   useEffect(() => {
     const applicationUserListQuery = sdk.createApplicationUserListQuery();
     applicationUserListQuery.limit = 5;
-    applicationUserListQuery.next((users_) => {
+    applicationUserListQuery.next().then((users_) => {
       setUsers(users_);
     });
   }, [sdk]);
@@ -32,7 +32,7 @@ export default function CustomInviteMembers({ onCancel }) {
     const applicationUserListQuery = sdk.createApplicationUserListQuery();
     applicationUserListQuery.limit = 5;
     applicationUserListQuery.nicknameStartsWithFilter = search;
-    applicationUserListQuery.next((users_) => {
+    applicationUserListQuery.next().then((users_) => {
       setUsers(users_);
     });
   }, [search, sdk]);
@@ -42,13 +42,21 @@ export default function CustomInviteMembers({ onCancel }) {
         const selectedUsers = Object.keys(selected).filter(
           (arg) => selected[arg]
         );
-        const params = new sdk.GroupChannelCreateParams();
-        params.addUserIds(selectedUsers);
-        params.isDistinct = false;
-        params.name = title;
-
-        const createChannel = sendBirdSelectors.getCreateChannel(store);
-        createChannel(params).finally(() => {
+        // GroupChannelCreateParams
+        const params = {
+          invitedUserIds: selectedUsers,
+          name: title,
+          isDistinct: false,
+          // channelUrl: UNIQUE_CHANNEL_URL,
+          // coverUrl: COVER_URL, // Or .coverImage to upload a cover image file
+          // operatorUserIds: ['Hoon', 'Doo'],
+          // data: DATA,
+          // customType: CUSTOM_TYPE,
+          // ...
+        };
+        console.warn(sendbirdSelectors);
+        const createChannel = sendbirdSelectors.getCreateGroupChannel(store);
+        createChannel(params).then().finally(() => {
           onCancel();
         });
       }}
